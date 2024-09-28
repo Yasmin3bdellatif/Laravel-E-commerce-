@@ -116,7 +116,7 @@
                         <div class="main-menu">
                             <div class="menu-left">
                                 <div class="brand-logo">
-                                    <a href="{{route('app.index')}}">
+                                    <a href="index.htm">
                                         <img src="{{asset('assets/images/logo.png')}}" class="h-logo img-fluid blur-up lazyload"
                                             alt="logo">
                                     </a>
@@ -137,7 +137,7 @@
                                                     </span>
                                                 </div>
                                             </li>
-                                            <li><a href="{{route('app.index')}}" class="nav-link menu-title">Home</a></li>
+                                            <li><a href="index.htm" class="nav-link menu-title">Home</a></li>
                                             <li><a href="shop.html" class="nav-link menu-title">Shop</a></li>
                                             <li><a href="cart/list.html" class="nav-link menu-title">Cart</a></li>
                                             <li><a href="about-us.html" class="nav-link menu-title">About Us</a></li>
@@ -175,11 +175,11 @@
                                             </a>
                                         </div>
                                     </li>
-                                    <li class="onhover-dropdown"
-                                         <div class="cart-media name-usr">
-                                         @auth
-                                         <span> {{Auth::user()->name}} </span> 
-                                         @endauth
+                                    <li class="onhover-dropdown">
+                                        <div>
+                                            @auth
+                                            <span> {{Auth::user()->name}} </span> 
+                                            @endauth<div class="cart-media name-usr">
                                             <i data-feather="user"></i>
                                         </div>
                                         <div class="onhover-div profile-dropdown">
@@ -285,7 +285,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="footer-contact">
                             <div class="brand-logo">
-                                <a href="{{route('app.index')}}" class="footer-logo float-start">
+                                <a href="index.htm" class="footer-logo float-start">
                                     <img src="assets/images/logo.png" class="f-logo img-fluid blur-up lazyload"
                                         alt="logo">
                                 </a>
@@ -312,7 +312,7 @@
                             <div class="footer-content">
                                 <ul>
                                     <li>
-                                        <a href="{{route('app.index')}}" class="font-dark">Home</a>
+                                        <a href="index.htm" class="font-dark">Home</a>
                                     </li>
                                     <li>
                                         <a href="shop.html" class="font-dark">Shop</a>
