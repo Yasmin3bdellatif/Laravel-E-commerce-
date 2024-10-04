@@ -5,6 +5,7 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth; 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,21 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// home page
+#region home page
 Route::get('/', [AppController::class,'index'])->name('app.index');
+#endregion
+
+#region shop 
 Route::get('/shop',[ShopController::class,'index'])->name('shop.index');
 Route::get('/product/{slug}',[ShopController::class,'productDetails'])->name('shop.product.details');
+#endregion
 
-#region Auth
+#region cart
+Route::get('/cart', [CartController::class,'index'])->name('cart.index');
+Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+#endregion
+
+#regsion Auth
 Auth::routes();
 
 Route::middleware('auth')->group(function () {

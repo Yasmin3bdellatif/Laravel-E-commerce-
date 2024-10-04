@@ -199,15 +199,16 @@
                                             <i class="fa fa-bookmark fz-16 me-2"></i>
                                             <span>Wishlist</span>
                                         </a>
-                                        <a href="javascript:void(0)"  id="cartEffect" class="btn btn-solid hover-solid btn-animation">
+                                        <a href="javascript:void(0)"  onclick="event.preventDefault();document.getElementById('addtocart').submit();" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
                                             <i class="fa fa-shopping-cart"></i>
-                                            <span>Add To Cart</span>                                       
+                                            <span>Add To Cart</span>
+                                            <form id="addtocart" method="post" action="{{route('cart.store')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$product->id}}">                                             
+                                                <input type="hidden" name="quantity" id="qty" value="1">
+                                            </form>
                                         </a>
-
-
-
                                     </div>
-
                                     <ul class="product-count shipping-order">
                                         <li>
                                             <img src="../assets/images/gif/truck.png" class="img-fluid blur-up lazyload"
