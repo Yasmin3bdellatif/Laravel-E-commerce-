@@ -399,22 +399,22 @@
                                 <div class="select-options">
                                     <div class="page-view-filter">
                                         <div class="dropdown select-featured">
-                                            <select class="form-select" name="orderby" id="orderby">
-                                                <option value="-1" selected="">Default</option>
-                                                <option value="1">Date, New To Old</option>
-                                                <option value="2">Date, Old To New</option>
-                                                <option value="3">Price, Low To High</option>
-                                                <option value="4">Price, High To Low</option>
-                                            </select>
+                                        <select class="form-select" name="orderby" id="orderby">
+                                            <option value="-1" {{ $order==-1? 'selected':''}}>Default</option>
+                                            <option value="1" {{ $order==1? 'selected':''}}>Date, New To Old</option>
+                                            <option value="2" {{ $order==2? 'selected':''}}>Date, Old To New</option>
+                                            <option value="3" {{ $order==3? 'selected':''}}>Price, Low To High</option>
+                                            <option value="4" {{ $order==4? 'selected':''}}>Price, High To Low</option>
+                                        </select>
                                         </div>
                                     </div>
                                     <div class="dropdown select-featured">
-                                        <select class="form-select" name="size" id="pagesize">
-                                            <option value="12" selected="">12 Products Per Page</option>
-                                            <option value="24">24 Products Per Page</option>
-                                            <option value="52">52 Products Per Page</option>
-                                            <option value="100">100 Products Per Page</option>
-                                        </select>
+                                    <select class="form-select" name="size" id="pagesize">
+                                        <option value="12" {{ $size == 12 ? 'selected' : '' }}>12 Products Per Page</option>
+                                        <option value="24" {{ $size == 24 ? 'selected' : '' }}>24 Products Per Page</option>
+                                        <option value="52" {{ $size == 52 ? 'selected' : '' }}>52 Products Per Page</option>
+                                        <option value="100" {{ $size == 100 ? 'selected' : '' }}>100 Products Per Page</option>
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="grid-options d-sm-inline-block d-none">
@@ -530,7 +530,7 @@
 
 
                     </div>
-                    {{$products->links("pagination.default")}}
+                    {{$products->withQueryString()->links("pagination.default")}}
                     
 
                 </div>
@@ -562,4 +562,27 @@
         </div>
     </section>
     <!-- Subscribe Section End -->
+
+    <form id="frmFilter" method="get">
+        @csrf
+        <input type="hidden" name="page" id="page" value="{{$page}}"/>
+        <input type="hidden" name="size" id="size" value="{{$size}}"/>
+        <input type="hidden" id="order" name="order" value="{{$order}}"/> 
+
+    </form>
 @endsection
+
+@push("scripts")
+    <script>
+        $("#pagesize").on("change", function()
+    {
+        $("#size").val($("#pagesize option:selected").val());
+        $("#frmFilter").submit();
+    });
+
+    $("#orderby").on("change",function(){                    
+            $("#order").val($("#orderby option:selected").val());
+            $("#frmFilter").submit(); 
+      });
+    </script>
+@endpush
