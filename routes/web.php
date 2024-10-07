@@ -30,6 +30,7 @@ Route::get('/product/{slug}',[ShopController::class,'productDetails'])->name('sh
 #region cart
 Route::get('/cart', [CartController::class,'index'])->name('cart.index');
 Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+Route::put('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 #endregion
 
 #regsion Auth

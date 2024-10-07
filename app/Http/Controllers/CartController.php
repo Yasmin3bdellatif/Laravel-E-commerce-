@@ -25,4 +25,11 @@ class CartController extends Controller
 
         return redirect()->back()->with('message','Success! Item Added Successfully!' );
     }
+    public function updateCart(Request $request)
+{
+    Cart::instance('cart')->update(
+        $request->rowId,
+        $request->quantity);
+    return redirect()->route('cart.index');
+} 
 }
