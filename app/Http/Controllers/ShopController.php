@@ -4,22 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Brand;
 
 class ShopController extends Controller
 {
     public function index(Request $request)
-    {       
-        // استرداد القيم من الاستعلام
+    {
+        // استلام المعلمات من الطلب
         $page = $request->query("page", 1);
         $size = $request->query("size", 12);
         $order = $request->query("order", -1);
 
-        // تحديد العمود والاتجاه حسب ترتيب المستخدم
+        // استلام العلامات التجارية كقائمة مفصولة بفواصل وتحويلها إلى مصفوفة
+        $q_brands = $request->query("brands", '');
+        if ($q_brands) {
+            $q_brands = explode(',', $q_brands);
+        } else {
+            $q_brands = []; // إذا كانت القيمة فارغة، اجعلها مصفوفة فارغة
+        }
+
+        // إعداد ترتيب المنتجات
         $o_column = "id";
         $o_order = "DESC";
 
-        switch($order)
-        {
+        switch ($order) {
             case 1:
                 $o_column = "created_at";
                 $o_order = "DESC";
@@ -31,24 +39,33 @@ class ShopController extends Controller
             case 3:
                 $o_column = "regular_price";
                 $o_order = "ASC";
-                break;  
+                break;
             case 4:
                 $o_column = "regular_price";
                 $o_order = "DESC";
                 break;
         }
 
-        // استعلام المنتجات مع الترتيب
-        $products = Product::orderBy($o_column, $o_order)->paginate($size);
+        // جلب العلامات التجارية
+        $brands = Brand::orderBy("name", 'ASC')->get();
 
-        // إعادة عرض المنتجات
+        // استعلام المنتجات مع الفلترة بناءً على العلامات التجارية
+        $products = Product::when(!empty($q_brands), function ($query) use ($q_brands) {
+            return $query->whereIn('brand_id', $q_brands);
+        })
+        ->orderBy($o_column, $o_order)
+        ->paginate($size);
+
+        // إرجاع العرض مع البيانات المطلوبة
         return view('shop', [
             'products' => $products,
             'page' => $page,
             'size' => $size,
-            'order' => $order
+            'order' => $order,
+            'brands' => $brands,
+            'q_brands' => $q_brands,
         ]);
-    }   
+    }
 
     public function productDetails($slug)
     {
